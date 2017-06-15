@@ -1,7 +1,0 @@
--gender dropdown required
--email required correct email format
--put in calendar for picking date and time
-	https://jsbin.com/hubanufuva/1/edit?html,js,output
-
-
-
