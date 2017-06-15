@@ -11,20 +11,22 @@
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
 </head>
 <body>
 <div class="ui container">
 
-  <div class="ui stacked segment">
+  <div class="ui raised segment">
     <h1 class = "headerName">FITNESS BUDDY</h1>
     <h3 class = "headerName">Please PICK your activities</h3>
   </div>
   <div class="five large ui buttons">
-    <button data="gym" class="searchAct ui inverted red button">Gym</button>
-    <button data="pickleball" class="searchAct ui blue inverted button">Pickleball</button>
-    <button data="running" class="searchAct ui green inverted button">Running</button>
-    <button data="tennis" class="searchAct ui orange inverted button">Tennis</button>
-    <button data="yoga" class="searchAct ui yellow inverted button">Yoga</button>
+    <button data="gym" class="searchAct ui red basic button">Gym</button>
+    <button data="pickleball" class="searchAct ui blue basic button">Pickleball</button>
+    <button data="running" class="searchAct ui green basic button">Running</button>
+    <button data="tennis" class="searchAct ui orange basic button">Tennis</button>
+    <button data="yoga" class="searchAct ui yellow basic button">Yoga</button>
   </div><!-- <div class="five large ui buttons"> -->
 <!-- search to show what other people plan, if no search then show everything -->
 <!-- raised, stacked, piled -->
@@ -107,23 +109,11 @@
           <th>Date</th>
           <th>Time</th>
           <th>Buddy</th>
+          <th>Detail</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-        </tr>
-        <tr>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-          <td>test</td>
-        </tr>
+
       </tbody>
     </table>
   </div>    <!-- search and show segment -->
@@ -131,29 +121,32 @@
 <!-- create your own event -->
   <div class="ui segments">
     <div class="ui segment">
-      <h4>Can't find your buddy, create your own</h4>
+      <h4>Can't find your buddy, add your own event</h4>
     </div>
-    <div class="ui segment">
+    <div class="ui segment" id="athlete-form">
       <form class="ui form">
             <div class="field">
               <label for="">Activities/Location</label>
-              <div class="three fields">
+              <div class="four fields">
                 <div class="field">
                   <div class="ui selection dropdown">
                     <input type ="text" name="activities">
                       <i class="dropdown icon"></i>
                       <div class="default text">Activities</div>
                       <div class="menu">
-                        <div class="item act-input" data-act ="gym">Gym</div>
-                        <div class="item act-input" data-act ="pickleball">Pickleball</div>
-                        <div class="item act-input" data-act ="running">Running</div>
-                        <div class="item act-input" data-act ="tennis">Tennis</div>
-                        <div class="item act-input" data-act ="yoga">Yoga</div>
+                        <div class="item act-input" data-act ="Gym">Gym</div>
+                        <div class="item act-input" data-act ="Pickleball">Pickleball</div>
+                        <div class="item act-input" data-act ="Running">Running</div>
+                        <div class="item act-input" data-act ="Tennis">Tennis</div>
+                        <div class="item act-input" data-act ="Yoga">Yoga</div>
                       </div>
                   </div>
                 </div>
                 <div class="field">
                   <input id = "place-input" type="text" placeholder ="Place">
+                </div>
+                <div class="field">
+                  <input id = "date-input" type="text" placeholder="DD/MM/YY">
                 </div>
                 <div class="field">
                   <input id = "time-input" type="text" placeholder ="Start Time"><!-- HH:mm - military time thinking about this now if I can put in calendar and time then better -->
@@ -172,15 +165,15 @@
               </div>
               <div class="field">
                   <div class="ui selection dropdown">
-                    <input type="hidden" name="gender">
+                    <input id="gender-dropdown" type="hidden" name="gender">
                     <i class="dropdown icon"></i>
                     <div class="default text">Gender</div>
                         <div class="menu">
-                          <div class="gender-input item" data-value="male" data-text="Male">
+                          <div class="gender-input item" data-gender="male" data-text="Male">
                             <i class="male icon"></i>
                             Male
                           </div>
-                          <div class="gender-input item" data-value="female" data-text="Female">
+                          <div class="gender-input item" data-gender="female" data-text="Female">
                             <i class="female icon"></i>
                             Female
                           </div>
@@ -268,8 +261,7 @@
 </div><!-- container -->
 <!-- script for SUI gender dropdown-->
 <script>$('.ui.dropdown').dropdown();</script>
+<!-- <script src="assets/javascript/app.js"></script> -->
 <script src="assets/javascript/app.js"></script>
-<script src="assets/javascript/test.js"></script>
-
 </body>
 </html>

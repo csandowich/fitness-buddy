@@ -6,13 +6,18 @@ var act =  $(this).attr("data");
 
 $("#btn-input").on("click", function(event){
   event.preventDefault();
-var actInput =  $(".act-input").attr("data-act");
-  console.log(actInput);
+var actInput =  $(".act-input.selected").attr("data-act");
+var genderInput =  $(".gender-input.selected").attr("data-gender");
+var stateInput = $("#state-input").val();
+console.log(actInput);
+  console.log(stateInput);
+  console.log(genderInput);
 });
 $("#searchBtn").on("click", function(event){
   event.preventDefault();
 var city = $("#searchCity").val().toLowerCase();
 var state = $("#searchState").val();
+
 console.log(state);
 
 });
