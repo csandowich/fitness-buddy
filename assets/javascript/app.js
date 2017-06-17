@@ -1,4 +1,4 @@
-// Initialize Firebase
+Initialize Firebase
    var config = {
     apiKey: "AIzaSyCXN9XhGk6V7nODMRaaccn1_e-NOvnGtdY",
     authDomain: "fitness-buddy-d10a3.firebaseapp.com",
@@ -7,23 +7,38 @@
     storageBucket: "fitness-buddy-d10a3.appspot.com",
     messagingSenderId: "556464695807"
   };
+
   firebase.initializeApp(config);
+
   var database = firebase.database();
+ //INITIAL VALUES
+  var aActivity = "";
+  var aFirstName = "";
+  var aLastName = "";
+  var aGender = ""
+  var aCity = "";
+  var aState = "";
+  var aPlace = "";
+  var aDate = "";
+  var aStartTime = "";
+  var aEmail = "";
+  var aComment = "";
 
-  $("#athlete-form").on("submit", function(e){
+//FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
+  $("#btn-input").on("click", function(e){
   	e.preventDefault();
-
-  	var activityInput = $(".act-input.selected").attr("data-act").trim();
-  	var firstNameInput = $("#name-input").val().trim();
-  	var lastNameInput = $("#lastName-input").val().trim();
-  	var genderInput = $("#gender-dropdown").val().trim();
-  	var cityInput = $("#city-input").val().trim();
-  	var stateInput = $("#stateInput").val().trim();
-  	var placeInput = $("#place-input").val().trim();
-  	var dateInput = $("#date-input").val().trim();
-  	var startTimeInput = $("#time-input").val().trim();
-  	var emailInput = $("#email-input").val().trim();
-  	var commentInput = $("#comment-input").val().trim();
+  	$("#display >tbody").html("");
+  	var activityInput = $(".act-input.selected").attr("data-act").trim().toLowerCase();
+  	var firstNameInput = $("#name-input").val().trim().toLowerCase();
+  	var lastNameInput = $("#lastName-input").val().trim().toLowerCase();
+  	var genderInput = $("#gender-dropdown").val().trim().toLowerCase();
+  	var cityInput = $("#city-input").val().trim().toLowerCase();
+  	var stateInput = $("#state-input").val().trim().toLowerCase();
+  	var placeInput = $("#place-input").val().trim().toLowerCase();
+  	var dateInput = $("#date-input").val().trim().toLowerCase();
+  	var startTimeInput = $("#time-input").val().trim().toLowerCase();
+  	var emailInput = $("#email-input").val().trim().toLowerCase();
+  	var commentInput = $("#comment-input").val().trim().toLowerCase();
 
   	console.log(activityInput);
   	console.log(firstNameInput);
@@ -52,7 +67,8 @@
   		dateAdded: firebase.database.ServerValue.TIMESTAMP
   		};
 
-  		database.ref().push(athleteInfo);
+  	database.ref().push(athleteInfo);
+
   		$(".act-input.selected").val("");
   		$("#name-input").val("");
   		$("#lastName-input").val("");
@@ -68,17 +84,17 @@
   });
 
   database.ref().on("child_added", function(snap){
-  	var aActivity = snap.val().activity;
-  	var aFirstName = snap.val().firstName;
-  	var aLastName = snap.val().lastName;
-  	var aGender = snap.val().gender;
-  	var aCity = snap.val().city;
-  	var aState = snap.val().state;
-  	var aPlace = snap.val().location;
-  	var aDate = snap.val().date;
-  	var aStartTime = snap.val().startTime;
-  	var aEmail = snap.val().email;
-  	var aComment = snap.val().comment;
+  	aActivity = snap.val().activity;
+  	aFirstName = snap.val().firstName;
+  	aLastName = snap.val().lastName;
+  	aGender = snap.val().gender;
+  	aCity = snap.val().city;
+  	aState = snap.val().state;
+  	aPlace = snap.val().location;
+  	aDate = snap.val().date;
+  	aStartTime = snap.val().startTime;
+  	aEmail = snap.val().email;
+  	aComment = snap.val().comment;
 
   	$("#display >tbody").append( "<tr>"+
   		"<td>"+ aActivity +"</td>"+
@@ -89,6 +105,58 @@
   		"<td>"+ aFirstName +"</td>"+
   		"<td><i class='info circle icon'></i></td></tr>");
 
+    // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+   });
 
-  });
+//ACTIVITY BUTTONs
+$(".searchAct").on("click", function(event){
+	event.preventDefault();
+	$("#display >tbody").html("");
+	var searchAct = $(this).attr("data");
+	console.log(searchAct);
+
+		database.ref().orderByChild("activity").equalTo(searchAct).on("child_added", function(snap){
+		console.log(snap.val());
+		console.log(snap.val().activity);
+		generalDisplay(snap);
+		});
+});
+//FILTER BY CITY AND DATE
+$("#searchBtn").on("click", function(event) {
+	event.preventDefault();
+	$("#display >tbody").html("");
+	var searchCity = $("#searchCity").val().toLowerCase();
+	var searchDate = $("#searchDate").val();
+	$("form").form("clear");
+	//var searchState = $("#searchState").val().toLowerCase();
+	console.log(searchDate);
+	console.log(searchCity);
+	//console.log(searchState);
+
+	database.ref().orderByChild("city" || "date").equalTo(searchCity || searchDate).on("child_added", function(snap){
+		console.log(snap.val());
+		generalDisplay(snap);
+		})
+
+	// database.ref().orderByChild("city", "date").equalTo(searchCity).equalTo(searchDate).on("child_added", function(snap){
+	// 	console.log(snap.val());
+	// 	generalDisplay(snap);
+	// 	})
+});
+
+//GENERAL DISPLAY FUNCTION
+function generalDisplay(snap) {
+	// $("#display >tbody").html("");
+		$("#display >tbody").append( "<tr>"+
+  		"<td>"+ snap.val().activity +"</td>"+
+  		"<td>"+ snap.val().city +"</td>"+
+  		"<td>"+ snap.val().state +"</td>"+
+  		"<td>"+ snap.val().date +"</td>"+
+  		"<td>"+ snap.val().startTime +"</td>"+
+  		"<td>"+ snap.val().firstName +"</td>"+
+  		"<td><i class='info circle icon'></i></td></tr>");
+	};
+
 
