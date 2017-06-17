@@ -13,7 +13,7 @@
   $("#athlete-form").on("submit", function(e){
   	e.preventDefault();
 
-  	var activityInput = $(".act-input.selected").attr("data-act").trim();
+  	var activityInput = $(".act-input.selected").attr("data-act");
   	var firstNameInput = $("#name-input").val().trim();
   	var lastNameInput = $("#lastName-input").val().trim();
   	var genderInput = $("#gender-dropdown").val().trim();
@@ -53,17 +53,18 @@
   		};
 
   		database.ref().push(athleteInfo);
-  		$(".act-input.selected").val("");
-  		$("#name-input").val("");
-  		$("#lastName-input").val("");
-  		$("#gender-dropdown").val("");
-  		$("#city-input").val("");
-  		$("#state-input").val("");
-  		$("#place-input").val("");
-  		$("#date-input").val("");
-  		$("#time-input").val("");
-  		$("#email-input").val("");
-  		$("#comment-input").val("");
+  		// $(".act-input.selected").val("");
+  		// $("#name-input").val("");
+  		// $("#lastName-input").val("");
+  		// $("#gender-dropdown").val("");
+  		// $("#city-input").val("");
+  		// $("#state-input").val("");
+  		// $("#place-input").val("");
+  		// $("#date-input").val("");
+  		// $("#time-input").val("");
+  		// $("#email-input").val("");
+  		// $("#comment-input").val("");
+      $("form").form("clear");
 
   });
 
@@ -91,4 +92,3 @@
 
 
   });
-
