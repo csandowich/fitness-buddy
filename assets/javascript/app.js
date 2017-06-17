@@ -27,6 +27,7 @@ Initialize Firebase
 //FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
   $("#btn-input").on("click", function(e){
   	e.preventDefault();
+
   	$("#display >tbody").html("");
   	var activityInput = $(".act-input.selected").attr("data-act").trim().toLowerCase();
   	var firstNameInput = $("#name-input").val().trim().toLowerCase();
@@ -39,6 +40,7 @@ Initialize Firebase
   	var startTimeInput = $("#time-input").val().trim().toLowerCase();
   	var emailInput = $("#email-input").val().trim().toLowerCase();
   	var commentInput = $("#comment-input").val().trim().toLowerCase();
+
 
   	console.log(activityInput);
   	console.log(firstNameInput);
@@ -67,6 +69,7 @@ Initialize Firebase
   		dateAdded: firebase.database.ServerValue.TIMESTAMP
   		};
 
+
   	database.ref().push(athleteInfo);
 
   		$(".act-input.selected").val("");
@@ -80,6 +83,7 @@ Initialize Firebase
   		$("#time-input").val("");
   		$("#email-input").val("");
   		$("#comment-input").val("");
+
 
   });
 
@@ -158,5 +162,3 @@ function generalDisplay(snap) {
   		"<td>"+ snap.val().firstName +"</td>"+
   		"<td><i class='info circle icon'></i></td></tr>");
 	};
-
-
