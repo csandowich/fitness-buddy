@@ -1,14 +1,13 @@
-//Initialize Firebase
-   var config = {
-    apiKey: "AIzaSyCXN9XhGk6V7nODMRaaccn1_e-NOvnGtdY",
-    authDomain: "fitness-buddy-d10a3.firebaseapp.com",
-    databaseURL: "https://fitness-buddy-d10a3.firebaseio.com",
-    projectId: "fitness-buddy-d10a3",
-    storageBucket: "fitness-buddy-d10a3.appspot.com",
-    messagingSenderId: "556464695807"
-  };
-
-  firebase.initializeApp(config);
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBu4pjbzzKjgREDEnQK3sYa4_0TUQDnVcc",
+  authDomain: "test-b14d0.firebaseapp.com",
+  databaseURL: "https://test-b14d0.firebaseio.com",
+  projectId: "test-b14d0",
+  storageBucket: "test-b14d0.appspot.com",
+  messagingSenderId: "781144526712"
+};
+firebase.initializeApp(config);
 
   var database = firebase.database();
  //INITIAL VALUES
@@ -23,12 +22,14 @@
   var aStartTime = "";
   var aEmail = "";
   var aComment = "";
+  var aAge ="";
+
 
 //FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
   $("#athlete-form").on("submit", function(e){
   	e.preventDefault();
 
-  	$("#display >tbody").html("");
+  	// $("#display >tbody").html("");
   	var activityInput = $(".act-input.selected").attr("data-act");
   	var firstNameInput = $("#name-input").val().trim().toLowerCase();
   	var lastNameInput = $("#lastName-input").val().trim().toLowerCase();
@@ -40,25 +41,16 @@
   	var startTimeInput = $("#time-input").val().trim().toLowerCase();
   	var emailInput = $("#email-input").val().trim().toLowerCase();
   	var commentInput = $("#comment-input").val().trim().toLowerCase();
-
-
-  	console.log(activityInput);
-  	console.log(firstNameInput);
-  	console.log(lastNameInput);
-  	console.log(genderInput);
-  	console.log(cityInput);
-  	console.log(stateInput);
-  	console.log(placeInput);
-  	console.log(dateInput);
-  	console.log(startTimeInput);
-  	console.log(emailInput);
-  	console.log(commentInput);
+    var ageInput = $(".age-input.selected").attr("data-age");
+console.log(ageInput);
 
   	var athleteInfo = {
+
   		activity: activityInput,
   		firstName: firstNameInput,
   		lastName: lastNameInput,
   		gender: genderInput,
+      age: ageInput,
   		city: cityInput,
   		state: stateInput,
   		place: placeInput,
@@ -72,35 +64,25 @@
 
   	database.ref().push(athleteInfo);
        $("form").form("clear");
-  		// $(".act-input.selected").val("");
-  		// $("#name-input").val("");
-  		// $("#lastName-input").val("");
-  		// $("#gender-dropdown").val("");
-  		// $("#city-input").val("");
-  		// $("#state-input").val("");
-  		// $("#place-input").val("");
-  		// $("#date-input").val("");
-  		// $("#time-input").val("");
-  		// $("#email-input").val("");
-  		// $("#comment-input").val("");
+
 
 
   });
 
-  database.ref().on("child_added", function(snap, prevChildKey){
-  	aActivity = snap.val().activity;
-  	aFirstName = snap.val().firstName;
-  	aLastName = snap.val().lastName;
+  database.ref().on("child_added", function(snap){
+  	aActivity = snap.val().activity.toUpperCase();
+  	aFirstName = snap.val().firstName.toUpperCase();
+  	aLastName = snap.val().lastName.toUpperCase();
   	aGender = snap.val().gender;
-  	aCity = snap.val().city;
-  	aState = snap.val().state;
-  	aPlace = snap.val().location;
-  	aDate = snap.val().date;
+  	aCity = snap.val().city.toUpperCase();
+  	aState = snap.val().state.toUpperCase();
+  	aPlace = snap.val().place.toUpperCase();
+  	aDate = snap.val().date.toUpperCase();
   	aStartTime = snap.val().startTime;
-  	aEmail = snap.val().email;
+  	aEmail = snap.val().email.toUpperCase();
   	aComment = snap.val().comment;
-    // console.log(prevChildKey);
-    console.log(snap.key);
+
+    // console.log(snap.key);
 
   	$("#display >tbody").append( "<tr>"+
   		"<td>"+ aActivity +"</td>"+
@@ -118,11 +100,7 @@
       console.log("Errors handled: " + errorObject.code);
    });
 
-   $(document).on("click",".detail", function(){
 
-      var id = $(this).attr("data-key")
-    console.log(id);
-   })
 //ACTIVITY BUTTONs
 $(".searchAct").on("click", function(event){
 	event.preventDefault();
@@ -151,28 +129,88 @@ $("#searchBtn").on("click", function(event) {
 	database.ref().orderByChild("city" || "date").equalTo(searchCity || searchDate).on("child_added", function(snap){
 		console.log(snap.val());
 		generalDisplay(snap);
-		})
+  });
 
-	// database.ref().orderByChild("city", "date").equalTo(searchCity).equalTo(searchDate).on("child_added", function(snap){
-	// 	console.log(snap.val());
-	// 	generalDisplay(snap);
-	// 	})
+
 });
+//for detail
+var showDetail;
+
+$(document).on("mouseenter",".detail", getDetail);
+
+function getDetail(){
+
+   var id = $(this).attr("data-key")
+
+
+ database.ref().orderByKey().equalTo(id).on("child_added", function(snap){
+
+weatherAPI(snap);
+googleMap(snap);
+// showDetail(snap);
+   showDetail = "<p>" + "Details:" + "</p><p>" +
+   "Name: " + snap.val().firstName.toUpperCase() + "</p><p>" +
+   "Lastname: " + snap.val().lastName.toUpperCase() + "</p><p>" +
+   "Gender: " + snap.val().gender.toUpperCase() + "</p><p>" +
+   "Age: " + snap.val().age + "</p><p>" +
+   "Place: " + snap.val().place.toUpperCase() + "</p><p>" +
+   "Weather: " + weather + "°F"+ "</p><p>" +
+   "City: " + snap.val().city.toUpperCase() + "</p><p>" +
+   "Email: " + snap.val().email.toUpperCase() + "</p><p>" +
+   "Comment: " + snap.val().comment + "</p><p>" +
+   "Don't know how to get there:" + "<a href='testdirection.html' target= _blank>" + "Place" + "</a></p>"
+
+
+   $('.icon.detail')
+   .popup({
+    on: "click",
+    html: showDetail
+
+   });
+
+
+
+ });
+
+}
 
 
 //GENERAL DISPLAY FUNCTION
 function generalDisplay(snap) {
 	// $("#display >tbody").html("");
 		$("#display >tbody").append( "<tr>"+
-  		"<td>"+ snap.val().activity +"</td>"+
-  		"<td>"+ snap.val().city +"</td>"+
-  		"<td>"+ snap.val().state +"</td>"+
-  		"<td>"+ snap.val().date +"</td>"+
-  		"<td>"+ snap.val().startTime +"</td>"+
-  		"<td>"+ snap.val().firstName +"</td>"+
+  		"<td>"+ snap.val().activity.toUpperCase() +"</td>"+
+  		"<td>"+ snap.val().city.toUpperCase() +"</td>"+
+  		"<td>"+ snap.val().state.toUpperCase() +"</td>"+
+  		"<td>"+ snap.val().date.toUpperCase() +"</td>"+
+  		"<td>"+ snap.val().startTime.toUpperCase() +"</td>"+
+  		"<td>"+ snap.val().firstName.toUpperCase() +"</td>"+
   		"<td><i class='info circle icon'></i></td></tr>");
 	};
 
-  function detailDisplay(){
+  var weather;
+  function weatherAPI(snap){
+    var dCity = snap.val().city;
+    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + dCity + "&units=imperial&appid=166a433c57516f51dfab1f7edaed8413";
 
-  }
+   $.ajax({
+      url: queryURL,
+      method: "GET",
+      async: false,
+    }).done(function(response) {
+      console.log(response);
+      console.log(response.main.temp);
+      weather = response.main.temp;
+  });
+
+ }
+
+ console.log(weather);
+function googleMap(snap){
+  console.log(snap.val().place);
+  console.log(snap.val().city);
+  var googlePlace = localStorage.setItem("place", snap.val().place );
+  var googleCity = localStorage.setItem("city", snap.val().city);
+
+
+}
