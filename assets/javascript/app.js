@@ -1,4 +1,4 @@
-Initialize Firebase
+//Initialize Firebase
    var config = {
     apiKey: "AIzaSyCXN9XhGk6V7nODMRaaccn1_e-NOvnGtdY",
     authDomain: "fitness-buddy-d10a3.firebaseapp.com",
@@ -25,11 +25,11 @@ Initialize Firebase
   var aComment = "";
 
 //FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
-  $("#btn-input").on("click", function(e){
+  $("#athlete-form").on("submit", function(e){
   	e.preventDefault();
 
   	$("#display >tbody").html("");
-  	var activityInput = $(".act-input.selected").attr("data-act").trim().toLowerCase();
+  	var activityInput = $(".act-input.selected").attr("data-act");
   	var firstNameInput = $("#name-input").val().trim().toLowerCase();
   	var lastNameInput = $("#lastName-input").val().trim().toLowerCase();
   	var genderInput = $("#gender-dropdown").val().trim().toLowerCase();
@@ -71,23 +71,23 @@ Initialize Firebase
 
 
   	database.ref().push(athleteInfo);
-
-  		$(".act-input.selected").val("");
-  		$("#name-input").val("");
-  		$("#lastName-input").val("");
-  		$("#gender-dropdown").val("");
-  		$("#city-input").val("");
-  		$("#state-input").val("");
-  		$("#place-input").val("");
-  		$("#date-input").val("");
-  		$("#time-input").val("");
-  		$("#email-input").val("");
-  		$("#comment-input").val("");
+       $("form").form("clear");
+  		// $(".act-input.selected").val("");
+  		// $("#name-input").val("");
+  		// $("#lastName-input").val("");
+  		// $("#gender-dropdown").val("");
+  		// $("#city-input").val("");
+  		// $("#state-input").val("");
+  		// $("#place-input").val("");
+  		// $("#date-input").val("");
+  		// $("#time-input").val("");
+  		// $("#email-input").val("");
+  		// $("#comment-input").val("");
 
 
   });
 
-  database.ref().on("child_added", function(snap){
+  database.ref().on("child_added", function(snap, prevChildKey){
   	aActivity = snap.val().activity;
   	aFirstName = snap.val().firstName;
   	aLastName = snap.val().lastName;
@@ -99,6 +99,8 @@ Initialize Firebase
   	aStartTime = snap.val().startTime;
   	aEmail = snap.val().email;
   	aComment = snap.val().comment;
+    // console.log(prevChildKey);
+    console.log(snap.key);
 
   	$("#display >tbody").append( "<tr>"+
   		"<td>"+ aActivity +"</td>"+
@@ -107,13 +109,20 @@ Initialize Firebase
   		"<td>"+ aDate +"</td>"+
   		"<td>"+ aStartTime +"</td>"+
   		"<td>"+ aFirstName +"</td>"+
-  		"<td><i class='info circle icon'></i></td></tr>");
+  		"<td><i class='info circle icon detail' data-key=" + snap.key + "></i></td></tr>");
+
+
 
     // Handle the errors
     }, function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
    });
 
+   $(document).on("click",".detail", function(){
+
+      var id = $(this).attr("data-key")
+    console.log(id);
+   })
 //ACTIVITY BUTTONs
 $(".searchAct").on("click", function(event){
 	event.preventDefault();
@@ -150,6 +159,7 @@ $("#searchBtn").on("click", function(event) {
 	// 	})
 });
 
+
 //GENERAL DISPLAY FUNCTION
 function generalDisplay(snap) {
 	// $("#display >tbody").html("");
@@ -162,3 +172,7 @@ function generalDisplay(snap) {
   		"<td>"+ snap.val().firstName +"</td>"+
   		"<td><i class='info circle icon'></i></td></tr>");
 	};
+
+  function detailDisplay(){
+
+  }
