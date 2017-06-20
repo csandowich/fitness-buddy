@@ -10,6 +10,7 @@ var config = {
 firebase.initializeApp(config);
 
   var database = firebase.database();
+  var likeRef = database.ref("/likes");
  //INITIAL VALUES
   var aActivity = "";
   var aFirstName = "";
@@ -23,8 +24,26 @@ firebase.initializeApp(config);
   var aEmail = "";
   var aComment = "";
   var aAge ="";
+  var showDetail;
+  var id;
+  var likeCount = 0;
+likeRef.on("value", function(snap){
 
+  $("#likeCount").html(snap.val().like);
+  likeCount = snap.val().like;
 
+}, function(err){
+  console.log(err);
+});
+
+$("#likeClick").on("click", function(){
+  console.log(likeCount);
+  likeCount++;
+  console.log()
+  likeRef.set({
+    like: likeCount
+  });
+});
 //FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
   $("#athlete-form").on("submit", function(e){
   	e.preventDefault();
@@ -42,7 +61,7 @@ firebase.initializeApp(config);
   	var emailInput = $("#email-input").val().trim().toLowerCase();
   	var commentInput = $("#comment-input").val().trim().toLowerCase();
     var ageInput = $(".age-input.selected").attr("data-age");
-console.log(ageInput);
+console.log(activityInput);
 
   	var athleteInfo = {
 
@@ -64,21 +83,18 @@ console.log(ageInput);
 
   	database.ref().push(athleteInfo);
        $("form").form("clear");
-
-
-
-  });
+     });
 
   database.ref().on("child_added", function(snap){
   	aActivity = snap.val().activity.toUpperCase();
   	aFirstName = snap.val().firstName.toUpperCase();
   	aLastName = snap.val().lastName.toUpperCase();
-  	aGender = snap.val().gender;
+  	aGender = snap.val().gender.toUpperCase();
   	aCity = snap.val().city.toUpperCase();
   	aState = snap.val().state.toUpperCase();
   	aPlace = snap.val().place.toUpperCase();
   	aDate = snap.val().date.toUpperCase();
-  	aStartTime = snap.val().startTime;
+  	aStartTime = snap.val().startTime.toUpperCase();
   	aEmail = snap.val().email.toUpperCase();
   	aComment = snap.val().comment;
 
@@ -94,7 +110,6 @@ console.log(ageInput);
   		"<td><i class='info circle icon detail' data-key=" + snap.key + "></i></td></tr>");
 
 
-
     // Handle the errors
     }, function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
@@ -106,12 +121,15 @@ $(".searchAct").on("click", function(event){
 	event.preventDefault();
 	$("#display >tbody").html("");
 	var searchAct = $(this).attr("data");
+
 	console.log(searchAct);
 
 		database.ref().orderByChild("activity").equalTo(searchAct).on("child_added", function(snap){
-		console.log(snap.val());
-		console.log(snap.val().activity);
+
+    // console.log(snap.val());
+		// console.log(snap.val().activity);
 		generalDisplay(snap);
+
 		});
 });
 //FILTER BY CITY AND DATE
@@ -119,29 +137,24 @@ $("#searchBtn").on("click", function(event) {
 	event.preventDefault();
 	$("#display >tbody").html("");
 	var searchCity = $("#searchCity").val().toLowerCase();
-	var searchDate = $("#searchDate").val();
+	var searchDate = $("#searchDate").val().toLowerCase();
 	$("form").form("clear");
-	//var searchState = $("#searchState").val().toLowerCase();
-	console.log(searchDate);
-	console.log(searchCity);
-	//console.log(searchState);
+
 
 	database.ref().orderByChild("city" || "date").equalTo(searchCity || searchDate).on("child_added", function(snap){
-		console.log(snap.val());
+		// console.log(snap.val());
 		generalDisplay(snap);
   });
 
 
 });
 //for detail
-var showDetail;
-
 $(document).on("mouseenter",".detail", getDetail);
 
 function getDetail(){
 
-   var id = $(this).attr("data-key")
-
+   id = $(this).attr("data-key")
+  //  console.log(id)
 
  database.ref().orderByKey().equalTo(id).on("child_added", function(snap){
 
@@ -167,11 +180,7 @@ googleMap(snap);
     html: showDetail
 
    });
-
-
-
  });
-
 }
 
 
@@ -185,7 +194,7 @@ function generalDisplay(snap) {
   		"<td>"+ snap.val().date.toUpperCase() +"</td>"+
   		"<td>"+ snap.val().startTime.toUpperCase() +"</td>"+
   		"<td>"+ snap.val().firstName.toUpperCase() +"</td>"+
-  		"<td><i class='info circle icon'></i></td></tr>");
+  		"<td><i class='info circle icon detail' data-key=" + snap.key + "></i></td></tr>");
 	};
 
   var weather;
@@ -198,17 +207,17 @@ function generalDisplay(snap) {
       method: "GET",
       async: false,
     }).done(function(response) {
-      console.log(response);
-      console.log(response.main.temp);
+      // console.log(response);
+      // console.log(response.main.temp);
       weather = response.main.temp;
   });
 
  }
 
- console.log(weather);
+
 function googleMap(snap){
-  console.log(snap.val().place);
-  console.log(snap.val().city);
+  // console.log(snap.val().place);
+  // console.log(snap.val().city);
   var googlePlace = localStorage.setItem("place", snap.val().place );
   var googleCity = localStorage.setItem("city", snap.val().city);
 

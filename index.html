@@ -20,6 +20,7 @@
 
 </head>
 <body>
+
 <div class="ui container">
 
   <div id ="logo" class="ui raised segment">
@@ -82,13 +83,13 @@
       <h4>Can't find your buddy, add your own event</h4>
     </div>
     <div class="ui segment" id="athlete-form">
-      <form class="ui form required">
+      <form class="ui required form">
             <div class="field">
               <label for="">Activities <i class="asterisk icon red small"></i></label>
               <div class="four fields">
                 <div class="field">
                   <div class="ui selection dropdown">
-                    <input type ="text" name="activities">
+                    <input type ="hidden" name="activities">
                       <i class="dropdown icon"></i>
                       <div class="default text">Activities</div>
                       <div class="menu">
@@ -263,6 +264,17 @@
   </div><!-- create new act -->
 </div><!-- container -->
 
+<div id="like" class="ui labeled button" tabindex="0">
+  <div id="likeClick" class="ui red button">
+    <i class="heart icon"></i> Like
+  </div>
+  <a class="ui basic red left pointing label">
+    <span id = "likeCount"></span>
+  </a>
+</div>
+<img src="assets/images/milo.jpg" data-title="Milo" data-content="Nice to meet you!" class="ui avatar image">
+<img src="assets/images/milo2.jpg" data-title="Baby" data-content="I love you" class="ui avatar image">
+<img src="assets/images/milo2.jpg" data-title="Baby" data-content="Hope to see you again!" class="ui avatar image">
 <script src="assets/javascript/style.js"></script>
 <script src="assets/javascript/app.js"></script>
 <!-- <script src="assets/javascript/test.js"></script> -->
