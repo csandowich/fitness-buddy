@@ -143,6 +143,7 @@ googleMap(snap);
    "Age: " + snap.val().age + "</p><p>" +
    "Place: " + snap.val().place.toUpperCase() + "</p><p>" +
    "Weather: " + weather + "°F"+ "</p><p>" +
+  //  <a href="mailto:EMAILADDRESS">
    "City: " + snap.val().city.toUpperCase() + "</p><p>" +
    "Email: " + snap.val().email.toUpperCase() + "</p><p>" +
    "Comment: " + snap.val().comment + "</p><p>" +
