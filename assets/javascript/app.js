@@ -158,7 +158,6 @@ googleMap(snap);
  });
 }
 
-
 //GENERAL DISPLAY FUNCTION
 function generalDisplay(snap) {
 
