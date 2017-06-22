@@ -1,14 +1,23 @@
-body{
-  /*background-color: #555555;*/
-}
-#logo {
-  /*height: 40%;*/
-  background-repeat: no-repeat;
-  text-align: center;
-  margin: 0 auto;
-}
-body{
+body {
 	background-image: url(../images/sports_4.jpeg);
 	background-size: cover;
 	height: 100%;
 }
+#logo {
+  height: 20%;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.avatar {
+  float: right;
+  margin: 1em 1em;
+}
+#like{
+  margin-left: 1em;
+  float: right;
+
+}
+a {
+  color: yellow;

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Map</title>
   <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -26,6 +26,7 @@
 </head>
 <body>
   <input id = "origin" type="text" placeholder ="Your Location">
+  <span>Your Destination: <span id="destination"></span></span>
   <input type="submit" id = "add-origin">
   <div id="map" style="position: relative; overflow: hidden;">
       <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);"></div>
@@ -36,6 +37,7 @@
   var destinationCity = localStorage.getItem("city");
   var yourDestination = destinationPlace + ", " + destinationCity;
   console.log(yourDestination)
+  $("#destination").html(yourDestination.toUpperCase());
   var directionsService;
   var directionsDisplay;
   $("#add-origin").on("click", function(e){
