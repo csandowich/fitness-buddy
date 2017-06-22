@@ -2,7 +2,7 @@ body{
   /*background-color: #555555;*/
 }
 #logo {
-  /*height: 40%;*/
+  height: 20%;
   background-repeat: no-repeat;
   text-align: center;
   margin: 0 auto;
@@ -10,13 +10,13 @@ body{
 .avatar {
   float: right;
   margin: 1em 1em;
-  /*position: absolute;
-  bottom: : 4;
-  left: 4%;*/
-
 }
 #like{
   margin-left: 1em;
   float: right;
-  
+
+}
+a {
+  color: yellow;
+
 }

@@ -11,22 +11,11 @@ firebase.initializeApp(config);
 
   var database = firebase.database();
   var likeRef = database.ref("/likes");
- //INITIAL VALUES
-  var aActivity = "";
-  var aFirstName = "";
-  var aLastName = "";
-  var aGender = ""
-  var aCity = "";
-  var aState = "";
-  var aPlace = "";
-  var aDate = "";
-  var aStartTime = "";
-  var aEmail = "";
-  var aComment = "";
-  var aAge ="";
   var showDetail;
+  var weather;
   var id;
   var likeCount = 0;
+//like button
 likeRef.on("value", function(snap){
 
   $("#likeCount").html(snap.val().like);
@@ -39,7 +28,6 @@ likeRef.on("value", function(snap){
 $("#likeClick").on("click", function(){
   console.log(likeCount);
   likeCount++;
-  console.log()
   likeRef.set({
     like: likeCount
   });
@@ -48,7 +36,7 @@ $("#likeClick").on("click", function(){
   $("#athlete-form").on("submit", function(e){
   	e.preventDefault();
 
-  	// $("#display >tbody").html("");
+
   	var activityInput = $(".act-input.selected").attr("data-act");
   	var firstNameInput = $("#name-input").val().trim().toLowerCase();
   	var lastNameInput = $("#lastName-input").val().trim().toLowerCase();
@@ -61,7 +49,7 @@ $("#likeClick").on("click", function(){
   	var emailInput = $("#email-input").val().trim().toLowerCase();
   	var commentInput = $("#comment-input").val().trim().toLowerCase();
     var ageInput = $(".age-input.selected").attr("data-age");
-console.log(activityInput);
+// console.log(activityInput);
 
   	var athleteInfo = {
 
@@ -86,35 +74,22 @@ console.log(activityInput);
      });
 
   database.ref().on("child_added", function(snap){
-  	aActivity = snap.val().activity.toUpperCase();
-  	aFirstName = snap.val().firstName.toUpperCase();
-  	aLastName = snap.val().lastName.toUpperCase();
-  	aGender = snap.val().gender.toUpperCase();
-  	aCity = snap.val().city.toUpperCase();
-  	aState = snap.val().state.toUpperCase();
-  	aPlace = snap.val().place.toUpperCase();
-  	aDate = snap.val().date.toUpperCase();
-  	aStartTime = snap.val().startTime.toUpperCase();
-  	aEmail = snap.val().email.toUpperCase();
-  	aComment = snap.val().comment;
 
-    // console.log(snap.key);
-
-  	$("#display >tbody").append( "<tr>"+
-  		"<td>"+ aActivity +"</td>"+
-  		"<td>"+ aCity +"</td>"+
-  		"<td>"+ aState +"</td>"+
-  		"<td>"+ aDate +"</td>"+
-  		"<td>"+ aStartTime +"</td>"+
-  		"<td>"+ aFirstName +"</td>"+
-  		"<td><i class='info circle icon detail' data-key=" + snap.key + "></i></td></tr>");
-
-
+    generalDisplay(snap);
     // Handle the errors
     }, function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
    });
 
+//show all activity
+$("#showAllAct").on("click", function(e){
+  	$("#display >tbody").html("");
+  e.preventDefault();
+    database.ref().on("child_added", function(snap){
+      generalDisplay(snap);
+
+    });
+});
 
 //ACTIVITY BUTTONs
 $(".searchAct").on("click", function(event){
@@ -132,16 +107,16 @@ $(".searchAct").on("click", function(event){
 
 		});
 });
-//FILTER BY CITY AND DATE
+//FILTER BY CITY
 $("#searchBtn").on("click", function(event) {
 	event.preventDefault();
 	$("#display >tbody").html("");
 	var searchCity = $("#searchCity").val().toLowerCase();
-	var searchDate = $("#searchDate").val().toLowerCase();
+
 	$("form").form("clear");
 
 
-	database.ref().orderByChild("city" || "date").equalTo(searchCity || searchDate).on("child_added", function(snap){
+	database.ref().orderByChild("city").equalTo(searchCity).on("child_added", function(snap){
 		// console.log(snap.val());
 		generalDisplay(snap);
   });
@@ -153,7 +128,7 @@ $(document).on("mouseenter",".detail", getDetail);
 
 function getDetail(){
 
-   id = $(this).attr("data-key")
+   id = $(this).attr("data-key");
   //  console.log(id)
 
  database.ref().orderByKey().equalTo(id).on("child_added", function(snap){
@@ -161,7 +136,7 @@ function getDetail(){
 weatherAPI(snap);
 googleMap(snap);
 // showDetail(snap);
-   showDetail = "<p>" + "Details:" + "</p><p>" +
+   showDetail = "<div class='ui segment inverted grey'><p>" + "Details:" + "</p><p>" +
    "Name: " + snap.val().firstName.toUpperCase() + "</p><p>" +
    "Lastname: " + snap.val().lastName.toUpperCase() + "</p><p>" +
    "Gender: " + snap.val().gender.toUpperCase() + "</p><p>" +
@@ -171,7 +146,7 @@ googleMap(snap);
    "City: " + snap.val().city.toUpperCase() + "</p><p>" +
    "Email: " + snap.val().email.toUpperCase() + "</p><p>" +
    "Comment: " + snap.val().comment + "</p><p>" +
-   "Don't know how to get there:" + "<a href='testdirection.html' target= _blank>" + "Place" + "</a></p>"
+   "Don't know how to get there: " + "<a href='testdirection.html' target= _blank>" + "Location" + "</a></p></div>";
 
 
    $('.icon.detail')
@@ -186,7 +161,7 @@ googleMap(snap);
 
 //GENERAL DISPLAY FUNCTION
 function generalDisplay(snap) {
-	// $("#display >tbody").html("");
+
 		$("#display >tbody").append( "<tr>"+
   		"<td>"+ snap.val().activity.toUpperCase() +"</td>"+
   		"<td>"+ snap.val().city.toUpperCase() +"</td>"+
@@ -195,9 +170,8 @@ function generalDisplay(snap) {
   		"<td>"+ snap.val().startTime.toUpperCase() +"</td>"+
   		"<td>"+ snap.val().firstName.toUpperCase() +"</td>"+
   		"<td><i class='info circle icon detail' data-key=" + snap.key + "></i></td></tr>");
-	};
+	}
 
-  var weather;
   function weatherAPI(snap){
     var dCity = snap.val().city;
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + dCity + "&units=imperial&appid=166a433c57516f51dfab1f7edaed8413";

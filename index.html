@@ -24,9 +24,7 @@
 <div class="ui container">
 
   <div id ="logo" class="ui raised segment">
-    <!-- <h1 class = "headerName">FITNESS BUDDY</h1>
-    <h3 class = "headerName">Please PICK your activities</h3> -->
-    <img src="assets/images/fitbud.png" alt="">
+      <img src="assets/images/fitbud.png" alt="">
   </div>
   <div class="five large ui buttons">
     <button data="gym" class="searchAct ui red inverted button">Gym</button>
@@ -37,30 +35,32 @@
   </div><!-- <div class="five large ui buttons"> -->
 <!-- search to show what other people plan, if no search then show everything -->
 <!-- raised, stacked, piled -->
-  <div class="ui blue inverted piled segment">
-    <div class="ui form">
-      <div class="fields">
-        <div class="six wide field">
-          <input id = "searchCity" type="text" placeholder="City">
-        </div>
 
-        <div class="six wide field">
-          <div class="ui calendar" id="calDate">
-            <div class="ui input left icon">
-              <i class="calendar icon"></i>
-              <input id="searchDate" type="text" placeholder="Date">
-            </div>
-          </div>
-        </div>
-        <button id = "searchBtn" type="submit" class="ui three wide reverted primary button field">Let's Go</button>
+  <div class="ui blue inverted piled segment">
+
+    <div class="ui form">
+      <div class="three fields">
+      <div class="six wide field">
+
+          <input id = "searchCity" type="text" placeholder="City">
+      </div>
+      <div class="field">
+          <button id = "searchBtn" type="submit" class="ui sixteen wide field reverted red button">Let's Go</button>
+
+      </div>
+      <div class="field">
+          <button id="showAllAct"type ="submit" class="ui yellow sixteen wide field reverted button">Show All Activities</button>
+      </div>
       </div><!-- fields -->
-    </div><!-- form -->
+   </div>  <!-- form -->
+
     <!-- show general from database in the table below -->
+
     <div style ="height: 500px;overflow:auto;">
     <table id = "display" class="ui selectable unstackable table">
       <thead>
         <tr class="center align">
-          <!-- if people come into the page and haven't select activities, may have to put activities column -->
+
           <th>Activities</th>
           <th>City</th>
           <th>State</th>
@@ -273,8 +273,8 @@
   </a>
 </div>
 <img src="assets/images/milo.jpg" data-title="Milo" data-content="Nice to meet you!" class="ui avatar image">
-<img src="assets/images/milo2.jpg" data-title="Baby" data-content="I love you" class="ui avatar image">
-<img src="assets/images/milo2.jpg" data-title="Baby" data-content="Hope to see you again!" class="ui avatar image">
+<img src="assets/images/kobe.jpg" data-title="Kobe" data-content="I love you" class="ui avatar image">
+<img src="assets/images/laddie.jpg" data-title="Laddie" data-content="So website! Much cool" class="ui avatar image">
 <script src="assets/javascript/style.js"></script>
 <script src="assets/javascript/app.js"></script>
 <!-- <script src="assets/javascript/test.js"></script> -->
