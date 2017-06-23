@@ -108,15 +108,11 @@ $(".searchAct").on("click", function(event){
 		});
 });
 //FILTER BY CITY
-$("#searchBtn").on("click", function(event) {
+$("#submitCity").on("click", function(event) {
   	event.preventDefault();
 
 	$("#display >tbody").html("");
 	var searchCity = $("#searchCity").val().toLowerCase();
-  console.log(searchCity);
-
-
-
 
 	database.ref().orderByChild("city").equalTo(searchCity).on("child_added", function(snap){
 		// console.log(snap.val());
@@ -125,6 +121,18 @@ $("#searchBtn").on("click", function(event) {
 
   $("#searchCity").val("");
 
+});
+//filter by date
+$("#submitDate").on("click", function(event){
+  event.preventDefault();
+  var searchDate = $("#searchDate").val().toLowerCase();
+  $("#display >tbody").html("");
+  database.ref().orderByChild("date").equalTo(searchDate).on("child_added", function(snap){
+    generalDisplay(snap);
+  }, function(err){
+    console.log(err);
+  });
+    $("#searchDate").val("");
 });
 //for detail
 $(document).on("mouseenter",".detail", getDetail);

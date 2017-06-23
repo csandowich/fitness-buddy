@@ -27,6 +27,7 @@ $('.ui.dropdown').dropdown();
 
  });
 
+
  //calendar time
  $('#calTime').calendar({
    type: 'time'
