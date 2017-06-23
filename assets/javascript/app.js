@@ -109,11 +109,13 @@ $(".searchAct").on("click", function(event){
 });
 //FILTER BY CITY
 $("#searchBtn").on("click", function(event) {
-	event.preventDefault();
+  	event.preventDefault();
+
 	$("#display >tbody").html("");
 	var searchCity = $("#searchCity").val().toLowerCase();
+  console.log(searchCity);
 
-	$("form").form("clear");
+
 
 
 	database.ref().orderByChild("city").equalTo(searchCity).on("child_added", function(snap){
@@ -121,6 +123,7 @@ $("#searchBtn").on("click", function(event) {
 		generalDisplay(snap);
   });
 
+  $("#searchCity").val("");
 
 });
 //for detail
@@ -143,7 +146,6 @@ googleMap(snap);
    "Age: " + snap.val().age + "</p><p>" +
    "Place: " + snap.val().place.toUpperCase() + "</p><p>" +
    "Weather: " + weather + "°F"+ "</p><p>" +
-  //  <a href="mailto:EMAILADDRESS">
    "City: " + snap.val().city.toUpperCase() + "</p><p>" +
    "Email: " + snap.val().email.toUpperCase() + "</p><p>" +
    "Comment: " + snap.val().comment + "</p><p>" +
