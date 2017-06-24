@@ -181,15 +181,15 @@ function generalDisplay(snap) {
 
 function weatherAPI(snap) {
   var dCity = snap.val().city;
-  var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + dCity + "&units=imperial&appid=166a433c57516f51dfab1f7edaed8413";
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" + dCity + "&units=imperial&appid=166a433c57516f51dfab1f7edaed8413";
 
   $.ajax({
     url: queryURL,
     method: "GET",
     async: false,
   }).done(function(response) {
-    // console.log(response);
-    // console.log(response.main.temp);
+    //console.log(response);
+    console.log(response.main.temp);
     weather = response.main.temp;
   });
 
