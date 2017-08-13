@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Map</title>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
   <style>
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -42,7 +43,7 @@
     $("#destination").html(yourDestination.toUpperCase());
     var directionsService;
     var directionsDisplay;
-    $("#add-origin").on("click", function(e) {
+    $("#add-origin").on("click", function (e) {
       event.preventDefault();
 
       var origin = $("#origin").val().trim();
@@ -53,7 +54,7 @@
         origin: origin,
         destination: yourDestination,
         travelMode: 'DRIVING'
-      }, function(response, status) {
+      }, function (response, status) {
         if (status === 'OK') {
           // Pass data to the map
           directionsDisplay.setDirections(response);

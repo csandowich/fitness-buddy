@@ -16,16 +16,16 @@ var weather;
 var id;
 var likeCount = 0;
 //like button
-likeRef.on("value", function(snap) {
+likeRef.on("value", function (snap) {
 
   $("#likeCount").html(snap.val().like);
   likeCount = snap.val().like;
 
-}, function(err) {
+}, function (err) {
   console.log(err);
 });
 
-$("#likeClick").on("click", function() {
+$("#likeClick").on("click", function () {
   console.log(likeCount);
   likeCount++;
   likeRef.set({
@@ -33,7 +33,7 @@ $("#likeClick").on("click", function() {
   });
 });
 //FUNCTION STORES INPUT DATA IN FIREBASE AND APPENDS TO TABLE
-$("#athlete-form").on("submit", function(e) {
+$("#athlete-form").on("submit", function (e) {
   e.preventDefault();
 
   var activityInput = $(".act-input.selected").attr("data-act");
@@ -72,46 +72,46 @@ $("#athlete-form").on("submit", function(e) {
   $("form").form("clear");
 });
 
-database.ref().on("child_added", function(snap) {
+database.ref().on("child_added", function (snap) {
 
   generalDisplay(snap);
   // Handle the errors
-}, function(errorObject) {
+}, function (errorObject) {
   console.log("Errors handled: " + errorObject.code);
 });
 
 //show all activity
-$("#showAllAct").on("click", function(e) {
+$("#showAllAct").on("click", function (e) {
   $("#display >tbody").html("");
   e.preventDefault();
-  database.ref().on("child_added", function(snap) {
+  database.ref().on("child_added", function (snap) {
     generalDisplay(snap);
 
   });
 });
 
 //ACTIVITY BUTTONs
-$(".searchAct").on("click", function(event) {
+$(".searchAct").on("click", function (event) {
   event.preventDefault();
   $("#display >tbody").html("");
   var searchAct = $(this).attr("data");
 
   // console.log(searchAct);
 
-  database.ref().orderByChild("activity").equalTo(searchAct).on("child_added", function(snap) {
+  database.ref().orderByChild("activity").equalTo(searchAct).on("child_added", function (snap) {
     // console.log(snap.val());
     // console.log(snap.val().activity);
     generalDisplay(snap);
   });
 });
 //FILTER BY CITY
-$("#submitCity").on("click", function(event) {
+$("#submitCity").on("click", function (event) {
   event.preventDefault();
 
   $("#display >tbody").html("");
   var searchCity = $("#searchCity").val().toLowerCase();
 
-  database.ref().orderByChild("city").equalTo(searchCity).on("child_added", function(snap) {
+  database.ref().orderByChild("city").equalTo(searchCity).on("child_added", function (snap) {
     // console.log(snap.val());
     generalDisplay(snap);
   });
@@ -120,13 +120,13 @@ $("#submitCity").on("click", function(event) {
 
 });
 //filter by date
-$("#submitDate").on("click", function(event) {
+$("#submitDate").on("click", function (event) {
   event.preventDefault();
   var searchDate = $("#searchDate").val().toLowerCase();
   $("#display >tbody").html("");
-  database.ref().orderByChild("date").equalTo(searchDate).on("child_added", function(snap) {
+  database.ref().orderByChild("date").equalTo(searchDate).on("child_added", function (snap) {
     generalDisplay(snap);
-  }, function(err) {
+  }, function (err) {
     console.log(err);
   });
   $("#searchDate").val("");
@@ -139,7 +139,7 @@ function getDetail() {
   id = $(this).attr("data-key");
   //  console.log(id)
 
-  database.ref().orderByKey().equalTo(id).on("child_added", function(snap) {
+  database.ref().orderByKey().equalTo(id).on("child_added", function (snap) {
 
     weatherAPI(snap);
     googleMap(snap);
@@ -187,7 +187,7 @@ function weatherAPI(snap) {
     url: queryURL,
     method: "GET",
     async: false,
-  }).done(function(response) {
+  }).done(function (response) {
     //console.log(response);
     console.log(response.main.temp);
     weather = response.main.temp;

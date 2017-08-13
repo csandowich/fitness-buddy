@@ -1,5 +1,5 @@
 # Fitness Buddy
- A website that allows lone fitness enthusiasts to buddy up with like minded induviduals to go and workout, play a sport, or go hiking, running etc. [check it out!](https://github.com/emmyjarz/fitness-buddy)
+ A website that allows lone fitness enthusiasts to buddy up with like minded induviduals to go and workout, play a sport, or go hiking, running etc. [check it out!](https://emmyjarz.github.io/fitness-buddy/)
  
  ## Technologies
  - HTML
